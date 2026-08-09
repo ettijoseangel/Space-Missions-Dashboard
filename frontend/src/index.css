@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900 transition-colors duration-300;
+  }
+
+  /* Cuando el HTML tenga la clase 'dark', aplica estos estilos al body*/
+  .dark body {
+    @apply bg-space-dark text-white bg-starts-pattern;
+  }
+}
