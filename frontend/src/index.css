@@ -9,6 +9,6 @@
 
   /* Cuando el HTML tenga la clase 'dark', aplica estos estilos al body*/
   .dark body {
-    @apply bg-space-dark text-white bg-starts-pattern;
+    @apply bg-space-dark text-white bg-stars-pattern;
   }
 }
