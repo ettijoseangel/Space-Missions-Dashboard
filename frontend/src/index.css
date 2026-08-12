@@ -7,8 +7,8 @@
     @apply bg-white text-gray-900 transition-colors duration-300;
   }
 
-  /* Cuando el HTML tenga la clase 'dark', aplica estos estilos al body*/
   .dark body {
-    @apply bg-space-dark text-white bg-stars-pattern;
+    /* Aplicamos los nuevos colores cósmicos */
+    @apply bg-cosmic-void text-cosmic-text bg-stars-pattern;
   }
 }
