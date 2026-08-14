@@ -1,41 +1,31 @@
 import { Header } from "../components/Header";
 import { MissionCard } from "../components/MissionCard";
-
-// Datos de prueba
-const mockMissions = [
-  {
-    id: 1,
-    name: "Artemis II",
-    status: "En Progreso",
-    description:
-      "Misión tripulada que orbitará la Luna para probar los sistemas de soporte vital de la nave Orion.",
-    date: "Noviembre 2024",
-    destination: "Órbita Lunar",
-    crew: 4,
-  },
-  {
-    id: 2,
-    name: "Apolo 11",
-    status: "Exitoso",
-    description:
-      "Primera misión tripulada en aterrizar en la Luna. Un pequeño paso para el hombre...",
-    date: "Julio 1969",
-    destination: "Mar de la Tranquilidad",
-    crew: 3,
-  },
-  {
-    id: 3,
-    name: "Mars Polar Lander",
-    status: "Fallido",
-    description:
-      "Misión robótica para estudiar el clima marciano que perdió contacto durante el descenso.",
-    date: "Diciembre 1999",
-    destination: "Polo Sur Marciano",
-    crew: 0,
-  },
-];
+import { useState, useEffect } from "react";
 
 export const Dashboard = () => {
+  // Estado para guardar las misiones que lleguen desde el backend
+  const [missions, setMissions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Efecto que se ejecuta al cargar la pagina
+  useEffect(() => {
+    const fetchMissions = async () => {
+      try {
+        // Peticion
+        const response = await fetch("http://localhost:5000/api/missions");
+        const data = await response.json();
+
+        setMissions(data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Error conectando con el backend:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchMissions();
+  }, []);
+
   return (
     /* Contenedor principal */
     <div className="min-h-screen">
@@ -54,13 +44,18 @@ export const Dashboard = () => {
         </div>
 
         {/* GRID con las Mission Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="border border-dashed border-gray-400 dark:border-cosmic-bluing p-6 rounded-lg text-center text-gray-600 dark:text-cosmic-bluing">
-            {mockMissions.map((mission) => (
-              <MissionCard key={mission.id} mission={mission} />
-            ))}
+        {/* Mostrando texto de carga */}
+        {loading ? (
+          <p className="text-white">Conectando con la base de datos...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="border border-dashed border-gray-400 dark:border-cosmic-bluing p-6 rounded-lg text-center text-gray-600 dark:text-cosmic-bluing">
+              {missions.map((mission) => (
+                <MissionCard key={mission.id} mission={mission} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );
