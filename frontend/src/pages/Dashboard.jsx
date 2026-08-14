@@ -1,30 +1,10 @@
 import { Header } from "../components/Header";
 import { MissionCard } from "../components/MissionCard";
-import { useState, useEffect } from "react";
+import { useMissions } from "../hooks/useMissions";
 
 export const Dashboard = () => {
-  // Estado para guardar las misiones que lleguen desde el backend
-  const [missions, setMissions] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Efecto que se ejecuta al cargar la pagina
-  useEffect(() => {
-    const fetchMissions = async () => {
-      try {
-        // Peticion
-        const response = await fetch("http://localhost:5000/api/missions");
-        const data = await response.json();
-
-        setMissions(data);
-        setLoading(false);
-      } catch (error) {
-        console.log("Error conectando con el backend:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchMissions();
-  }, []);
+  // Desestructuracion del return del Hook
+  const { missions, loading, error } = useMissions();
 
   return (
     /* Contenedor principal */
@@ -44,16 +24,22 @@ export const Dashboard = () => {
         </div>
 
         {/* GRID con las Mission Cards */}
-        {/* Mostrando texto de carga */}
-        {loading ? (
-          <p className="text-white">Conectando con la base de datos...</p>
-        ) : (
+        {/* Lógica de renderizado condicional súper legible */}
+        {loading && (
+          <p className="text-gray-600 dark:text-white">
+            Conectando con la base de control...
+          </p>
+        )}
+
+        {error && (
+          <p className="text-red-500">Error de comunicación: {error}</p>
+        )}
+
+        {!loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="border border-dashed border-gray-400 dark:border-cosmic-bluing p-6 rounded-lg text-center text-gray-600 dark:text-cosmic-bluing">
-              {missions.map((mission) => (
-                <MissionCard key={mission.id} mission={mission} />
-              ))}
-            </div>
+            {missions.map((mission) => (
+              <MissionCard key={mission.id} mission={mission} />
+            ))}
           </div>
         )}
       </main>
