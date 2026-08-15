@@ -1,11 +1,15 @@
-import express from 'express';
-import { getMissions } from '../controllers/missionController.js';
+import express from "express";
+import { getMissions, getMissionByID, createMission } from "../controllers/missionController.js";
 
 const router = express.Router();
 
-//Rutas
+//Rutas base: /api/missions
+router
+  .route("/")
+  .get(getMissions) //Obtiene todas (paginadas)
+  .post(createMission); // Crea una nueva
 
-// GET /api/missions
-router.get('/',getMissions);
+// Rutas con ID: /api/missions/:id
+router.route("/:id").get(getMissionByID); // Obtiene el detalle de una especificacion
 
 export default router;

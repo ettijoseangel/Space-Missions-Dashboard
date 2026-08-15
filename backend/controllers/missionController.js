@@ -1,41 +1,83 @@
+import { Mission } from "../models/Mission.js";
+
+// @desc    Obtener todas las misiones (Paginado)
+// @route   GET /api/missions
+
 export const getMissions = async (req, res) => {
   try {
-    // Datos de prueba
-    const mockMissions = [
-      {
-        id: 1,
-        name: "Artemis II",
-        status: "En Progreso",
-        description:
-          "Misión tripulada que orbitará la Luna para probar los sistemas de soporte vital.",
-        date: "Noviembre 2024",
-        destination: "Órbita Lunar",
-        crew: 4,
-      },
-      {
-        id: 2,
-        name: "Apolo 11",
-        status: "Exitoso",
-        description: "Primera misión tripulada en aterrizar en la Luna.",
-        date: "Julio 1969",
-        destination: "Mar de la Tranquilidad",
-        crew: 3,
-      },
-      {
-        id: 3,
-        name: "Mars Polar Lander",
-        status: "Fallido",
-        description:
-          "Misión robótica para estudiar el clima marciano que perdió contacto.",
-        date: "Diciembre 1999",
-        destination: "Polo Sur Marciano",
-        crew: 0,
-      },
-    ];
+    // Obtenemos la pagina y el limite desde la URL (o usamos valores por defecto)
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
 
-    // Respuesta con un JSON
-    res.json(mockMissions);
+    // Calculamos cuantos registros saltarnos
+    const skip = (page - 1) * limit;
+
+    // Contamos el total de documentos para saber cuantas paginas hay en total
+    const total = await Mission.countDocuments();
+
+    // Buscamos las misiones aplicando el salto y el limite
+
+    const missions = await Mission.find({}).skip(skip).limit(limit);
+
+    // Devolvemos los datos junto con la metadata de la paginacion
+    res.json({
+      missions,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener las misiones" });
+    res
+      .status(500)
+      .json({ message: "Houston. Tenemos un problema.", error: error.message });
+  }
+};
+
+// @desc    Obtener una sola misión por ID
+// @route   GET /api/missions/:id
+export const getMissionByID = async (req, res) => {
+  try {
+    const mission = await Mission.findById(req.params.id);
+
+    if (mission) {
+      res.json(mission);
+    } else {
+      res.status(404).json({ message: "Misión no encontrada" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al buscar la misión", error: error.message });
+  }
+};
+
+// @desc    Crear una nueva misión
+// @route   POST /api/missions
+export const createMission = async (req, res) => {
+  try {
+    // Extraemos los datos que nos enviará el frontend o cliente HTTP
+    const { nombre, agencia, fecha_lanzamiento, estado, tripulacion, destino } =
+      req.body;
+
+    // Creamos la instancia en la BD
+    const mission = await Mission.create({
+      nombre,
+      agencia,
+      fecha_lanzamiento,
+      estado,
+      tripulacion,
+      destino,
+    });
+
+    res.status(201).json(mission);
+  } catch (error) {
+    res
+      .status(400)
+      .json({
+        message: "Error al crear la misión. Verifica los datos enviados.",
+        error: error.message,
+      });
   }
 };
