@@ -26,6 +26,10 @@ const missionSchema = new mongoose.Schema({
     destino: {
         type: String,
         required: true
+    },
+    descripcion: {
+        type: String,
+        required: false // No es obligatorio por el momento
     }
 }, {
     timestamps: true    // Crea automaticamente los campos createdAt y updatedAt

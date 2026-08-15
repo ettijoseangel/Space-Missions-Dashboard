@@ -58,7 +58,7 @@ export const getMissionByID = async (req, res) => {
 export const createMission = async (req, res) => {
   try {
     // Extraemos los datos que nos enviará el frontend o cliente HTTP
-    const { nombre, agencia, fecha_lanzamiento, estado, tripulacion, destino } =
+    const { nombre, agencia, fecha_lanzamiento, estado, tripulacion, destino, descripcion } =
       req.body;
 
     // Creamos la instancia en la BD
@@ -69,6 +69,7 @@ export const createMission = async (req, res) => {
       estado,
       tripulacion,
       destino,
+      descripcion
     });
 
     res.status(201).json(mission);
