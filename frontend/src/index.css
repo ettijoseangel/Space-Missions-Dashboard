@@ -4,11 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-gray-900 transition-colors duration-300;
-  }
-
-  .dark body {
-    /* Aplicamos los nuevos colores cósmicos */
-    @apply bg-cosmic-void text-cosmic-text bg-stars-pattern;
+    /* Reemplazamos cosmic-void por nuestra nueva paleta espacial */
+    @apply bg-space-light dark:bg-space-dark text-gray-900 dark:text-gray-100 transition-colors duration-300;
   }
 }
