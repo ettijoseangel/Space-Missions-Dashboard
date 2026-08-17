@@ -1,75 +1,123 @@
-import {
-  Calendar,
-  Users,
-  MapPin,
-  CheckCircle,
-  Clock,
-  AlertTriangle,
-} from "lucide-react";
-
 export const MissionCard = ({ mission }) => {
-  // Diccionario para los estados de la misión
-  const statusConfig = {
-    Exitoso: {
-      color: "text-emerald-500 dark:text-emerald-400",
-      border: "border-emerald-200 dark: border-emerald-400/30",
-      icon: CheckCircle,
-    },
-    "En Progreso": {
-      color: "text-orange-500 dark:text-cosmic-adobe",
-      border: "border-orange-200 dark:border-cosmic-adobe/30",
-      icon: Clock,
-    },
-    Fallido: {
-      color: "text-red-500 dark:text-cosmic-rose",
-      border: "border-red-200 dark:border-cosmic-rose/30",
-      icon: AlertTriangle,
-    },
+  // Funcion para determinar el color del indicador
+  const getStatusColor = (estado) => {
+    const est = estado?.toLowerCase() || "";
+    if (est.includes("progreso") || est.includes("activa")) {
+      return "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse";
+    }
+    if (est.includes("fallida") || est.includes("cancelada")) {
+      return "bg-jpl-red shadow-[0_0_8px_rgba(227,25,55,0.8)] animate-pulse";
+    }
+    // Para misiones completadas o estados desconocidos
+    return "bg-gray-400 dark:bg-gray-500";
   };
 
-  // Extraemos la configuracion basada en el estado actual de la mision
-  const StatusIcon = statusConfig[mission.estado]?.icon || Clock;
-  const statusColor =
-    statusConfig[mission.estado]?.color ||
-    "text-gray-500 dark:text-cosmic-bluing";
-  const statusBorder =
-    statusConfig[mission.estado]?.border ||
-    "border-gray-200 dark:border-cosmic-bluing";
-
   return (
-    <div className="relative p-6 rounded-xl bg-white dark:bg-cosmic-surf/10 border border-gray-200 dark:border-cosmic-bluing/30 backdrop-blur-sm hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-200 dark:hover:shadow-cosmic-marina/20 transition-all duration-300 group">
-      {/* Encabezado: Titulo y Badge de Estado */}
+    <div className="bg-white dark:bg-space-panel border border-gray-200 dark:border-gray-800 p-6 flex flex-col h-full group hover:border-jpl-red transition-colors duration-300">
+      {/* 1. Encabezado: Título, Agencia y Estado */}
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-cosmic-marina transition-colors">
-          {mission.nombre}
-        </h3>
-        <span
-          className={`flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border ${statusBorder} ${statusColor} bg-gray-50 dark:bg-cosmic-void/50 transition-colors`}
-        >
-          <StatusIcon className="w-3 h-3" />
-          {mission.estado}
-        </span>
+        <div>
+          <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-white group-hover:text-jpl-red transition-colors duration-300">
+            {mission.nombre}
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mt-1 uppercase tracking-wide">
+            {mission.agencia}
+          </p>
+        </div>
+
+        {/* Indicador de Estado */}
+        <div className="flex items-center gap-2 bg-gray-100 dark:bg-space-dark px-3 py-1.5 border border-gray-200 dark:border-gray-700">
+          <span
+            className={`w-2 h-2 rounded-full ${getStatusColor(mission.estado)}`}
+          ></span>
+          <span className="text-xs font-mono text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+            {mission.estado}
+          </span>
+        </div>
       </div>
 
-      {/* Descripcion de la mision */}
-      <p className="text-sm text-gray-600 dark:text-cosmic-text/80 mb-6 line-clamp-2 transition-colors">
-        {mission.descripcion || "Información de la misión no disponible por el momento."}
-      </p>
+      <hr className="border-gray-200 dark:border-gray-700 mb-5" />
 
-      {/* Lista de metadatos con iconos */}
-      <div className="space-y-3 text-sm text-gray-500 dark:text-cosmic-bluing transition-colors">
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-cosmic-marina" />
-          <span>{mission.fecha_lanzamiento}</span>
+      {/* 2. Cuadrícula de Datos Técnicos con Íconos */}
+      <div className="grid grid-cols-2 gap-y-4 gap-x-2 mb-6">
+        <div>
+          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red uppercase tracking-widest mb-1">
+            {/* Ícono de Destino (Planeta) */}
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            Destino
+          </span>
+          <span className="block text-sm text-gray-900 dark:text-gray-100 font-medium">
+            {mission.destino}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-cosmic-marina" />
-          <span>{mission.destino}</span>
+
+        <div>
+          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red uppercase tracking-widest mb-1">
+            {/* Ícono de Lanzamiento (Calendario) */}
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              ></path>
+            </svg>
+            Lanzamiento
+          </span>
+          <span className="block text-sm font-mono text-gray-900 dark:text-gray-100">
+            {mission.fecha_lanzamiento}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Users className="w-4 h-4 text-cosmic-marina" />
-          <span>{mission.tripulacion} Tripulantes</span>
+
+        <div>
+          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red uppercase tracking-widest mb-1">
+            {/* Ícono de Tripulación (Usuarios) */}
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+            Tripulación
+          </span>
+          <span className="block text-sm font-display font-bold text-gray-900 dark:text-gray-100">
+            {Number(mission.tripulacion) === 0
+              ? "NO TRIPULADA"
+              : `${mission.tripulacion} ASTRONAUTAS`}
+          </span>
         </div>
+      </div>
+
+      {/* 3. Descripción (mt-auto empuja este bloque al fondo para alinear todas las tarjetas) */}
+      <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700/50">
+        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          {mission.descripcion ||
+            "Información detallada de la telemetría y objetivos de la misión no disponible por el momento."}
+        </p>
       </div>
     </div>
   );
