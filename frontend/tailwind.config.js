@@ -14,6 +14,7 @@ export default {
         // Aseguramos tipografías limpias: sans para lectura, mono para métricas
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        display: ['Barlow', 'sans-serif'],
       }
     },
   },
