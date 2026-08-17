@@ -38,7 +38,7 @@ export const Dashboard = () => {
         {!loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {missions.map((mission) => (
-              <MissionCard key={mission.id} mission={mission} />
+              <MissionCard key={mission._id} mission={mission} />
             ))}
           </div>
         )}

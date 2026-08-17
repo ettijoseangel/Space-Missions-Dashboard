@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 export const useMissions = () => {
   const [missions, setMissions] = useState([]);
+  const [pagination, setPagination] = useState({}); // Estado para la metadata
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // Estado para errores
 
@@ -14,7 +15,8 @@ export const useMissions = () => {
         if (!response.ok) throw new Error("Error de red o servidor");
 
         const data = await response.json();
-        setMissions(data);
+        setMissions(data.missions);
+        setPagination(data.pagination);
       } catch (err) {
         console.error("Error conectado con el backend".err);
         setError(err.message);
@@ -28,5 +30,5 @@ export const useMissions = () => {
   }, []);
 
   // Hook devuelve la informacion que el componente necesita
-  return { missions, loading, error };
+  return { missions, pagination, loading, error };
 };
