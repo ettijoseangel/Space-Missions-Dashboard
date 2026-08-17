@@ -28,12 +28,12 @@ export const MissionCard = ({ mission }) => {
   };
 
   // Extraemos la configuracion basada en el estado actual de la mision
-  const StatusIcon = statusConfig[mission.status]?.icon || Clock;
+  const StatusIcon = statusConfig[mission.estado]?.icon || Clock;
   const statusColor =
-    statusConfig[mission.status]?.color ||
+    statusConfig[mission.estado]?.color ||
     "text-gray-500 dark:text-cosmic-bluing";
   const statusBorder =
-    statusConfig[mission.status]?.border ||
+    statusConfig[mission.estado]?.border ||
     "border-gray-200 dark:border-cosmic-bluing";
 
   return (
@@ -41,34 +41,34 @@ export const MissionCard = ({ mission }) => {
       {/* Encabezado: Titulo y Badge de Estado */}
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-cosmic-marina transition-colors">
-          {mission.name}
+          {mission.nombre}
         </h3>
         <span
           className={`flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border ${statusBorder} ${statusColor} bg-gray-50 dark:bg-cosmic-void/50 transition-colors`}
         >
           <StatusIcon className="w-3 h-3" />
-          {mission.status}
+          {mission.estado}
         </span>
       </div>
 
       {/* Descripcion de la mision */}
       <p className="text-sm text-gray-600 dark:text-cosmic-text/80 mb-6 line-clamp-2 transition-colors">
-        {mission.description}
+        {mission.descripcion || "Información de la misión no disponible por el momento."}
       </p>
 
       {/* Lista de metadatos con iconos */}
       <div className="space-y-3 text-sm text-gray-500 dark:text-cosmic-bluing transition-colors">
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4 text-cosmic-marina" />
-          <span>{mission.date}</span>
+          <span>{mission.fecha_lanzamiento}</span>
         </div>
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-cosmic-marina" />
-          <span>{mission.destination}</span>
+          <span>{mission.destino}</span>
         </div>
         <div className="flex items-center gap-2">
           <Users className="w-4 h-4 text-cosmic-marina" />
-          <span>{mission.crew} Tripulantes</span>
+          <span>{mission.tripulacion} Tripulantes</span>
         </div>
       </div>
     </div>
