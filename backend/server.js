@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js'; // Para importar la conexion
-import missionRoutes from './routes/missionRoutes.js'
+import missionRoutes from './routes/missionRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ connectDB();    // Conectar a MongoDB Atlas y Ejecuta la conexiom
 app.use(cors());    // Peticiones desde el front
 app.use(express.json());    // Express entiende JSOn en el body de las peticiones
 
+app.use('/api/auth', authRoutes);
 // Uso de rutas en el endpoint /api/missions
 app.use('/api/missions', missionRoutes);
 

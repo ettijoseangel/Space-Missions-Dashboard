@@ -1,21 +1,24 @@
 export const validateData = (schema) => {
   return (req, res, next) => {
-    try {
-      // Intenta validar el cuerpo de la peticion contra el esquema Zod
-      schema.parse(req.body);
-      // Si todo sale bien, pasa al siguiente middleware o controlador
-      next();
-    } catch (error) {
-      // Si detecta un error, formateamos la respuesta para el frontend
-      const errorMessages = error.errors.map((err) => ({
-        campo: err.path[0],
-        mensaje: err.message,
-      }));
+    const validacion = schema.safeParse(req.body);
 
-      return res.status(400).json({
-        message: "Datos de telemetría inválidos",
-        errors: errorMessages,
+    if (!validacion.success) {
+      // Blindamos el mapeo con encadenamiento opcional (?.) y arreglos vacíos de respaldo
+      const issues = validacion.error?.errors || validacion.error?.issues || [];
+      
+      const errorMessages = issues.map((err) => ({
+        campo: err.path && err.path.length > 0 ? err.path.join('.') : 'general',
+        mensaje: err.message || 'Valor inválido'
+      }));
+      
+      return res.status(400).json({ 
+        message: 'Datos de telemetría inválidos', 
+        errors: errorMessages 
       });
     }
+
+    // Reasignamos los datos limpios y validados por Zod
+    req.body = validacion.data;
+    next();
   };
 };
