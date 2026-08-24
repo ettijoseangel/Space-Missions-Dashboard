@@ -16,7 +16,7 @@ const missionSchema = new mongoose.Schema({
     estado : {
         type: String,
         required: true,
-        enum: ['Exitoso', 'En Progreso', 'Fallido'] // Limitamos a los estados exactos del frontend
+        enum: ['Activa', 'En Progreso', 'Completada', 'Fallida', 'Cancelada'],
     },
     tripulacion: {
         type: Number,

@@ -13,7 +13,13 @@ const missionSchema = z.object({
   fecha_lanzamiento: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Formato YYYY-MM-DD"),
-  estado: z.enum(["Exitoso", "En Progreso", "Fallido"]),
+  estado: z.enum([
+    "Activa",
+    "En Progreso",
+    "Completada",
+    "Fallida",
+    "Cancelada",
+  ]),
   // z.coerce fuerza a que el input (que siempre es texto en HTML) se convierta a número
   tripulacion: z.coerce.number().min(0, "No puede ser negativa"),
   descripcion: z.string().optional(),
@@ -45,14 +51,17 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
     const toastId = toast.loading("Estableciendo conexión con el servidor...");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/missions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/missions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       const result = await response.json();
 
@@ -172,9 +181,11 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
                 {...register("estado")}
                 className="w-full bg-gray-950 border border-gray-700 rounded p-2 text-white font-mono text-sm focus:border-jpl-red outline-none"
               >
+                <option value="Activa">Activa</option>
                 <option value="En Progreso">En Progreso</option>
-                <option value="Exitoso">Exitoso</option>
-                <option value="Fallido">Fallido</option>
+                <option value="Completada">Completada</option>
+                <option value="Fallida">Fallida</option>
+                <option value="Cancelada">Cancelada</option>
               </select>
               {errors.estado && (
                 <p className="text-red-500 text-[10px] font-mono">
