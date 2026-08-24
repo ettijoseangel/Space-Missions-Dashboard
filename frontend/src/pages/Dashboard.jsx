@@ -5,6 +5,7 @@ import { TelemetryPanel } from "../components/TelemetryPanel";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import MissionModal from "../components/MissionModal";
+import { Footer } from "../components/Footer";
 
 export const Dashboard = () => {
   // Usuario extraido y creacion del estado del modal
@@ -19,7 +20,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-space-light dark:bg-space-dark transition-colors duration-300">
+    <div className="min-h-screen pb-24 bg-space-light dark:bg-space-dark transition-colors duration-300">
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -105,6 +106,7 @@ export const Dashboard = () => {
         onClose={() => setIsModalOpen(false)}
         onMissionAdded={handledMissionAdded}
       />
+      <Footer />
     </div>
   );
 };
