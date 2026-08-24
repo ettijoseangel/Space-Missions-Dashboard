@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
     res.send('Servidor en linea');
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log('Servidor corriendo');
