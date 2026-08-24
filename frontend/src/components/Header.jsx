@@ -1,8 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { Rocket, Sun, Moon } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
 import { useState, useEffect } from "react";
 
 export const Header = () => {
+
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
   const { theme, toggleTheme } = useTheme();
 
   // Estado para el reloj
@@ -33,7 +39,7 @@ export const Header = () => {
         </div>
 
         {/* Lado Derecho: Controles y Telemetría del Operador */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 md:gap-10">
           {/* Reloj Sistema (Oculto en móviles muy pequeños) */}
           <div className="hidden md:flex flex-col items-end">
             <span className="text-[10px] text-jpl-red font-bold tracking-widest uppercase">
@@ -44,7 +50,37 @@ export const Header = () => {
             </span>
           </div>
 
-          
+          {/* Divisor Vertical */}
+          <div className="hidden sm:block h-8 w-px bg-gray-300 dark:bg-gray-700"></div>
+
+          {/* Controles de Sesion */}
+          <div className="flex items-center gap-4">
+            {user?.role === "admin" ? (
+              <>
+                {/* Insignia sobria de un solo renglón */}
+                <span className="hidden sm:inline-block text-[11px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-700 px-3 py-1 rounded">
+                  Admin
+                </span>
+                {/* Botón salir como texto simple para no saturar visualmente */}
+                <button 
+                  onClick={logout}
+                  className="text-[11px] font-mono uppercase tracking-widest text-gray-400 hover:text-jpl-red transition-colors"
+                >
+                  Salir
+                </button>
+              </>
+            ) : (
+              <button 
+                onClick={() => navigate('/login')}
+                className="text-[11px] font-mono uppercase tracking-widest text-jpl-red hover:text-red-700 dark:hover:text-red-400 transition-colors"
+              >
+                Acceso Admin
+              </button>
+            )}
+          </div>
+
+          {/* Divisor Vertical Elegante */}
+          <div className="hidden sm:block h-8 w-px bg-gray-200 dark:bg-gray-800"></div>
 
           <div className="flex items-center">
             {/* BOTON DE TEMA CLARO/OSCURO */}

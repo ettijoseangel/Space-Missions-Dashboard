@@ -2,10 +2,21 @@ import { Header } from "../components/Header";
 import { MissionCard } from "../components/MissionCard";
 import { useMissions } from "../hooks/useMissions";
 import { TelemetryPanel } from "../components/TelemetryPanel";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import MissionModal from "../components/MissionModal";
 
 export const Dashboard = () => {
+  // Usuario extraido y creacion del estado del modal
+  const { user } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // Desestructuracion del return del Hook
   const { missions, loading, error, pagination } = useMissions();
+
+  const handledMissionAdded = () => {
+    window.location.reload();
+  };
 
   return (
     <div className="min-h-screen bg-space-light dark:bg-space-dark transition-colors duration-300">
@@ -37,10 +48,21 @@ export const Dashboard = () => {
               <span className="text-jpl-red">DASHBOARD</span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 dark:text-white transition-colors duration-300 uppercase tracking-tight">
                 Centro de Control
               </h2>
+
+              {/* EL BOTÓN DE AUTORIZACIÓN */}
+              {user?.role === "admin" && (
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-jpl-red hover:bg-red-700 text-white font-mono text-xs md:text-sm uppercase tracking-widest px-6 py-3 rounded transition-all shadow-[0_0_15px_rgba(227,0,15,0.4)] hover:shadow-[0_0_25px_rgba(227,0,15,0.6)] border border-red-500/50 flex items-center gap-2"
+                >
+                  <span className="text-lg font-light leading-none">+</span>{" "}
+                  Autorizar Misión
+                </button>
+              )}
             </div>
 
             <p className="text-gray-600 dark:text-gray-300 mt-4 font-mono text-xs md:text-sm transition-colors duration-300 uppercase tracking-wider flex items-center gap-2 max-w-2xl">
@@ -76,6 +98,13 @@ export const Dashboard = () => {
           </>
         )}
       </main>
+
+      {/* Renderizado del Modal  */}
+      <MissionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onMissionAdded={handledMissionAdded}
+      />
     </div>
   );
 };
