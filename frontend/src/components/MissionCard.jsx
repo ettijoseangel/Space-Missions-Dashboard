@@ -9,40 +9,40 @@ export const MissionCard = ({ mission }) => {
         // Azul brillante
         return {
           icon: Zap,
-          color: "text-blue-400 bg-blue-900/30 border-blue-500/50",
+          color: "text-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]",
         };
 
       case "en progreso":
         // Ambar / Amarillo
         return {
           icon: Activity,
-          color: "text-yellow-400 bg-yellow-900/30 border-yellow-500/50",
+          color: "text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]",
         };
 
       case "completada":
         // Verde
         return {
           icon: CheckCircle2,
-          color: "text-green-400 bg-green-900/30 border-green-500/50",
+          color: "text-green-500 drop-shadow-[0_0_5px_rgba(34,197,94,0.4)]",
         };
 
       case "fallida":
         // Rojo intenso
         return {
           icon: AlertTriangle,
-          color: "text-jpl-red bg-red-900/30 border-red-500/50 animate-pulse",
+          color: "text-jpl-red drop-shadow-[0_0_8px_rgba(227,25,55,0.6)]",
         };
 
       case "cancelada":
         // Gris opaco
         return {
           icon: Ban,
-          color: "text-gray-400 bg-gray-800 border-gray-600",
+          color: "text-gray-400 dark:text-gray-500",
         };
       default:
         return {
           icon: Activity,
-          color: "text-gray-400 bg-gray-800 border-gray-600",
+          color: "text-gray-400 dark:text-gray-500",
         };
     }
   };

@@ -1,3 +1,5 @@
+import { Target } from 'lucide-react';
+
 export const TelemetryPanel = ({ missions, pagination }) => {
   const misionesActivas = missions.filter(
     (m) => m.estado === "En Progreso",
@@ -8,6 +10,13 @@ export const TelemetryPanel = ({ missions, pagination }) => {
   );
   const totalMisiones = pagination?.total || missions.length;
 
+  const misionesCompletadas = missions.filter(
+    (m) => m.estado?.toLowerCase() === "completada",
+  ).length;
+  const tasaExito =
+    missions.length > 0
+      ? Math.round((misionesCompletadas / missions.length) * 100)
+      : 0;
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 border-b border-gray-300 pb-8 transition-colors duration-300">
       {/* Metrica 1: Total de misiones */}
@@ -49,19 +58,18 @@ export const TelemetryPanel = ({ missions, pagination }) => {
         </span>
       </div>
 
-      {/* Metrica 4: Estado del Sistema */}
+      {/* Metrica 4: Tasa de Exito */}
       <div className="flex flex-col">
         <span className="text-jpl-red text-sm md:text-base font-medium uppercase tracking-wide">
-          Red Espacial
+          Rendimiento Global
         </span>
         <span className="text-gray-900 dark:text-gray-100 text-base md:text-lg mt-1 mb-2">
-          Deep Space Network
+          Tasa de Éxito
         </span>
         <div className="flex items-center gap-3 mt-auto">
-          {/* El indicador LED animado */}
-          <span className="w-3 h-3 md:w-4 md:h-4 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]"></span>
-          <span className="text-3xl md:text-4xl font-display font-bold text-green-500 tracking-light">
-            Nominal
+          <Target size={28} className="text-blue-500" strokeWidth={2} />
+          <span className="text-5xl md:text-6xl font-display font-bold text-blue-500 tracking-light">
+            {tasaExito}%
           </span>
         </div>
       </div>
