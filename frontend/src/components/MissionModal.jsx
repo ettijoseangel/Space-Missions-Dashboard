@@ -45,7 +45,7 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
     const toastId = toast.loading("Estableciendo conexión con el servidor...");
 
     try {
-      const response = await fetch("http://localhost:5000/api/missions", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/missions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

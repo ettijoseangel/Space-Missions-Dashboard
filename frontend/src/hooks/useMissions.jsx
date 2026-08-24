@@ -9,7 +9,7 @@ export const useMissions = () => {
   useEffect(() => {
     const fetchMissions = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/missions");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/missions`);
 
         // Verificamos si la respuesta del servidor es correcta (status 200)
         if (!response.ok) throw new Error("Error de red o servidor");
