@@ -1,27 +1,54 @@
+import { Zap, Activity, CheckCircle2, AlertTriangle, Ban } from "lucide-react";
+
 export const MissionCard = ({ mission }) => {
   // Funcion para determinar el color del indicador
-  const getStatusColor = (estado) => {
+  const getStatusConfig = (estado) => {
     const est = estado?.toLowerCase() || "";
     switch (est) {
       case "activa":
         // Azul brillante
-        return "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse";
+        return {
+          icon: Zap,
+          color: "text-blue-400 bg-blue-900/30 border-blue-500/50",
+        };
+
       case "en progreso":
         // Ambar / Amarillo
-        return "bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse";
+        return {
+          icon: Activity,
+          color: "text-yellow-400 bg-yellow-900/30 border-yellow-500/50",
+        };
+
       case "completada":
         // Verde
-        return "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]";
+        return {
+          icon: CheckCircle2,
+          color: "text-green-400 bg-green-900/30 border-green-500/50",
+        };
+
       case "fallida":
         // Rojo intenso
-        return "bg-jpl-red shadow-[0_0_10px_rgba(227,25,55,0.8)] animate-pulse";
+        return {
+          icon: AlertTriangle,
+          color: "text-jpl-red bg-red-900/30 border-red-500/50 animate-pulse",
+        };
+
       case "cancelada":
         // Gris opaco
-        return "bg-gray-500 dark:bg-gray-600";
+        return {
+          icon: Ban,
+          color: "text-gray-400 bg-gray-800 border-gray-600",
+        };
       default:
-        return "bg-gray-400 dark:bg-gray-500";
+        return {
+          icon: Activity,
+          color: "text-gray-400 bg-gray-800 border-gray-600",
+        };
     }
   };
+
+  const statusConfig = getStatusConfig(mission.estado);
+  const StatusIcon = statusConfig.icon;
 
   return (
     <div className="bg-white dark:bg-space-panel border border-gray-200 dark:border-gray-800 p-6 flex flex-col h-full group hover:border-jpl-red transition-colors duration-300">
@@ -38,9 +65,11 @@ export const MissionCard = ({ mission }) => {
 
         {/* Indicador de Estado */}
         <div className="flex items-center gap-2 bg-gray-100 dark:bg-space-dark px-3 py-1.5 border border-gray-200 dark:border-gray-700">
-          <span
-            className={`w-2 h-2 rounded-full ${getStatusColor(mission.estado)}`}
-          ></span>
+          <StatusIcon
+            size={14}
+            strokeWidth={2.5}
+            className={statusConfig.color}
+          />
           <span className="text-xs font-mono text-gray-700 dark:text-gray-300 uppercase tracking-wider">
             {mission.estado}
           </span>
