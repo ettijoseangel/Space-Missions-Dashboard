@@ -2,14 +2,25 @@ export const MissionCard = ({ mission }) => {
   // Funcion para determinar el color del indicador
   const getStatusColor = (estado) => {
     const est = estado?.toLowerCase() || "";
-    if (est.includes("progreso") || est.includes("activa")) {
-      return "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse";
+    switch (est) {
+      case "activa":
+        // Azul brillante
+        return "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse";
+      case "en progreso":
+        // Ambar / Amarillo
+        return "bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse";
+      case "completada":
+        // Verde
+        return "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]";
+      case "fallida":
+        // Rojo intenso
+        return "bg-jpl-red shadow-[0_0_10px_rgba(227,25,55,0.8)] animate-pulse";
+      case "cancelada":
+        // Gris opaco
+        return "bg-gray-500 dark:bg-gray-600";
+      default:
+        return "bg-gray-400 dark:bg-gray-500";
     }
-    if (est.includes("fallida") || est.includes("cancelada")) {
-      return "bg-jpl-red shadow-[0_0_8px_rgba(227,25,55,0.8)] animate-pulse";
-    }
-    // Para misiones completadas o estados desconocidos
-    return "bg-gray-400 dark:bg-gray-500";
   };
 
   return (
