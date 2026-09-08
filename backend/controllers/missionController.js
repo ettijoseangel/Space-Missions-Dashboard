@@ -58,8 +58,15 @@ export const getMissionByID = async (req, res) => {
 export const createMission = async (req, res) => {
   try {
     // Extraemos los datos que nos enviará el frontend o cliente HTTP
-    const { nombre, agencia, fecha_lanzamiento, estado, tripulacion, destino, descripcion } =
-      req.body;
+    const {
+      nombre,
+      agencia,
+      fecha_lanzamiento,
+      estado,
+      tripulacion,
+      destino,
+      descripcion,
+    } = req.body;
 
     // Creamos la instancia en la BD
     const mission = await Mission.create({
@@ -69,16 +76,67 @@ export const createMission = async (req, res) => {
       estado,
       tripulacion,
       destino,
-      descripcion
+      descripcion,
     });
 
     res.status(201).json(mission);
   } catch (error) {
-    res
-      .status(400)
-      .json({
-        message: "Error al crear la misión. Verifica los datos enviados.",
-        error: error.message,
+    res.status(400).json({
+      message: "Error al crear la misión. Verifica los datos enviados.",
+      error: error.message,
+    });
+  }
+};
+
+// @desc    Actualizar una sola mision por ID
+// @route   PUT /api/missions/:id
+export const updateMission = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedMission = await Mission.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true, // Fuerza a Mongoose a respetar el enum de los 5 estados
+    });
+
+    if (!updatedMission) {
+      return res.status(404).json({
+        message: "La misión especificada no existe en los registros.",
       });
+    }
+
+    res.status(200).jsonm(updatedMission);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al actualizar la telemetría.",
+      error: error.message,
+    });
+  }
+};
+
+// @desc    Eliminar una sola mision por ID
+// @route   DELETE /api/missions/:id
+
+export const deleteMission = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedMission = await Mission.findByIdAndDelete(id);
+
+    if (!deletedMission) {
+      return res
+        .status(404)
+        .json({
+          message: "La misión especificada no existe en los registros.",
+        });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Misión purgada de la base de datos exitosamente." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al purgar la misión.", error: error.message });
   }
 };
