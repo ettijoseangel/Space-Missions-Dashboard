@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -25,7 +25,7 @@ const missionSchema = z.object({
   descripcion: z.string().optional(),
 });
 
-const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
+const MissionModal = ({ isOpen, onClose, onMissionAdded, missionToEdit }) => {
   const { token } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -42,26 +42,57 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
     },
   });
 
+  useEffect(() => {
+    if (missionToEdit) {
+      const formattedDate = missionToEdit.fecha_lanzamiento
+        ? new Date(missionToEdit.fecha_lanzamiento).toISOString().split("T")[0]
+        : "";
+
+      reset({
+        ...missionToEdit,
+        fecha_lanzamiento: formattedDate,
+      });
+    } else {
+      reset({
+        nombre: "",
+        agencia: "",
+        destino: "",
+        fecha_lanzamiento: "",
+        estado: "En Progreso",
+        tripulacion: 0,
+        descripcion: "",
+      });
+    }
+  }, [missionToEdit, reset]);
+
   if (!isOpen) return null;
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
 
-    // Toast de carga
-    const toastId = toast.loading("Estableciendo conexión con el servidor...");
+    const isEditing = Boolean(missionToEdit);
+
+    // Toast dinámico
+    const toastMessage = isEditing
+      ? "Actualizando misión..."
+      : "Estableciendo conexión con el servidor...";
+    const toastId = toast.loading(toastMessage);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/missions`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
+      const url = isEditing
+        ? `${import.meta.env.VITE_API_URL}/api/missions/${missionToEdit._id}`
+        : `${import.meta.env.VITE_API_URL}/api/missions`;
+
+      const method = isEditing ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       const result = await response.json();
 
@@ -69,10 +100,12 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
         throw new Error(result.message || "Error al guardar la misión");
       }
 
-      // Si todo fue exitoso, actualizamos el toast a estado "success"
-      toast.success(`¡Misión "${data.nombre}" registrada con éxito!`, {
-        id: toastId,
-      });
+      // Mensaje de éxito dinámico
+      const successMsg = isEditing
+        ? `¡Misión "${data.nombre}" actualizada!`
+        : `¡Misión "${data.nombre}" registrada con éxito!`;
+
+      toast.success(successMsg, { id: toastId });
 
       // Se limpia el formulario y modal cerrado
       reset();
@@ -95,7 +128,7 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded }) => {
               Formulario de Registro
             </p>
             <h3 className="text-xl font-display text-white font-bold uppercase tracking-tight">
-              Nueva Misión Espacial
+             {missionToEdit ? 'Actualizar' : 'Crear'} Misión Espacial
             </h3>
           </div>
           <button

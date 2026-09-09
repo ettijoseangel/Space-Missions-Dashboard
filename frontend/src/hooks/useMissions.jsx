@@ -30,5 +30,5 @@ export const useMissions = () => {
   }, []);
 
   // Hook devuelve la informacion que el componente necesita
-  return { missions, pagination, loading, error };
+  return { missions, pagination, loading, error, setMissions };
 };

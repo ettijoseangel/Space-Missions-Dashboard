@@ -10,13 +10,56 @@ import { Footer } from "../components/Footer";
 export const Dashboard = () => {
   // Usuario extraido y creacion del estado del modal
   const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   // Desestructuracion del return del Hook
-  const { missions, loading, error, pagination } = useMissions();
+  const { missions, loading, error, pagination, setMissions } = useMissions();
+
+  const [missionToEdit, setMissionToEdit] = useState(null);
 
   const handledMissionAdded = () => {
     window.location.reload();
+  };
+
+  const handleEditMission = (mission) => {
+    setMissionToEdit(mission);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteMission = async (id) => {
+    const confirmDelete = window.confirm(
+      "ALERTA DE SISTEMA: ¿Estás seguro de que deseas purgar esta misión? Esta acción es irreversible.",
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/missions/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.ok) {
+        // Si el backend la borra exitosamente, la quitamos de la pantalla
+        setMissions((prevMissions) =>
+          prevMissions.filter((mission) => mission._id !== id),
+        );
+      } else {
+        const data = await response.json();
+        alert(`Error de consola: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Fallo de comunicación con la base de datos:", error);
+      alert("Error de conexión con la Red de Espacio Profundo.");
+    }
   };
 
   return (
@@ -57,7 +100,10 @@ export const Dashboard = () => {
               {/* EL BOTÓN DE AUTORIZACIÓN */}
               {user?.role === "admin" && (
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => {
+                    setMissionToEdit(null);
+                    setIsModalOpen(true);
+                  }}
                   className="bg-jpl-red hover:bg-red-700 text-white font-mono text-xs md:text-sm uppercase tracking-widest px-6 py-3 rounded transition-all shadow-[0_0_15px_rgba(227,0,15,0.4)] hover:shadow-[0_0_25px_rgba(227,0,15,0.6)] border border-red-500/50 flex items-center gap-2"
                 >
                   <span className="text-lg font-light leading-none">+</span>{" "}
@@ -93,7 +139,13 @@ export const Dashboard = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {missions.map((mission) => (
-                <MissionCard key={mission._id} mission={mission} />
+                <MissionCard
+                  key={mission._id}
+                  mission={mission}
+                  onDelete={handleDeleteMission}
+                  onEdit={handleEditMission}
+                  isAdmin = {isAdmin}
+                />
               ))}
             </div>
           </>
@@ -103,7 +155,11 @@ export const Dashboard = () => {
       {/* Renderizado del Modal  */}
       <MissionModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setMissionToEdit(null);
+        }}
+        missionToEdit={missionToEdit}
         onMissionAdded={handledMissionAdded}
       />
       <Footer />

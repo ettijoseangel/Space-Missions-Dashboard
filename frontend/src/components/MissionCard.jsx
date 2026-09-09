@@ -1,6 +1,14 @@
-import { Zap, Activity, CheckCircle2, AlertTriangle, Ban } from "lucide-react";
+import {
+  Zap,
+  Activity,
+  CheckCircle2,
+  AlertTriangle,
+  Ban,
+  Trash2,
+  Edit2,
+} from "lucide-react";
 
-export const MissionCard = ({ mission }) => {
+export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
   // Funcion para determinar el color del indicador
   const getStatusConfig = (estado) => {
     const est = estado?.toLowerCase() || "";
@@ -159,6 +167,35 @@ export const MissionCard = ({ mission }) => {
             "Información detallada de la telemetría y objetivos de la misión no disponible por el momento."}
         </p>
       </div>
+
+      {/* BARRA DE ACCIONES */}
+      {isAdmin && (
+        <div className="mt-auto pt-4 flex justify-end gap-3 border-t border-gray-100 dark:border-gray-800/50">
+          {/* Botón de EDITAR */}
+          <button
+            onClick={() => onEdit(mission)} // IMPORTANTE: Pasamos TODA la misión, no solo el ID
+            className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-900/20 rounded-md transition-all duration-300 group"
+            title="Modificar misión"
+          >
+            <Edit2
+              size={18}
+              className="group-hover:scale-110 transition-transform"
+            />
+          </button>
+
+          {/* Botón de ELIMINAR */}
+          <button
+            onClick={() => onDelete(mission._id)}
+            className="p-2 text-gray-400 hover:text-jpl-red hover:bg-red-900/20 rounded-md transition-all duration-300 group"
+            title="Purgar misión"
+          >
+            <Trash2
+              size={18}
+              className="group-hover:animate-pulse group-hover:scale-110 transition-transform"
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
