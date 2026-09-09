@@ -6,13 +6,13 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import MissionModal from "../components/MissionModal";
 import { Footer } from "../components/Footer";
+import { MissionChart } from "../components/MissionChart";
 
 export const Dashboard = () => {
   // Usuario extraido y creacion del estado del modal
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   // Desestructuracion del return del Hook
   const { missions, loading, error, pagination, setMissions } = useMissions();
@@ -135,7 +135,15 @@ export const Dashboard = () => {
         {!loading && !error && (
           <>
             {/* Panel de metricas */}
-            <TelemetryPanel missions={missions} pagination={pagination} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+              <div className="h-full">
+                <TelemetryPanel missions={missions} pagination={pagination} />
+              </div>
+
+              <div className=" h-full">
+                <MissionChart missions={missions} />
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {missions.map((mission) => (
@@ -144,7 +152,7 @@ export const Dashboard = () => {
                   mission={mission}
                   onDelete={handleDeleteMission}
                   onEdit={handleEditMission}
-                  isAdmin = {isAdmin}
+                  isAdmin={isAdmin}
                 />
               ))}
             </div>
