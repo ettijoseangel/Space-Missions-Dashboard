@@ -15,7 +15,8 @@ export const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Desestructuracion del return del Hook
-  const { missions, loading, error, pagination, setMissions } = useMissions();
+  const { missions, loading, error, pagination, setMissions, page, setPage } =
+    useMissions();
 
   const [missionToEdit, setMissionToEdit] = useState(null);
 
@@ -156,6 +157,33 @@ export const Dashboard = () => {
                 />
               ))}
             </div>
+
+            {/* CONTROLES DE PAGINACION */}
+            {pagination && pagination.pages > 1 && (
+              <div className="mt-12 flex justify-center items-center gap-4 border-t border-gray-200 dark:border-gray-800 pt-6">
+                <button
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={page === 1}
+                  className="px-4 py-2 font-mono text-sm border border-gray-300 dark:border-gray-700 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  &lt; Anterior
+                </button>
+
+                <span className="font-mono text-sm text-gray-500 dark:text-gray-400">
+                  Página <span className="text-jpl-red font-bold">{page}</span> de {pagination.pages}
+                </span>
+
+                <button
+                  onClick={() =>
+                    setPage((prev) => Math.min(prev + 1, pagination.pages))
+                  }
+                  disabled={page === pagination.pages}
+                  className="px-4 py-2 font-mono text-sm border border-gray-300 dark:border-gray-700 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Siguiente &gt;
+                </button>
+              </div>
+            )}
           </>
         )}
       </main>

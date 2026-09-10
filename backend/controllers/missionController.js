@@ -7,7 +7,7 @@ export const getMissions = async (req, res) => {
   try {
     // Obtenemos la pagina y el limite desde la URL (o usamos valores por defecto)
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 9;
 
     // Calculamos cuantos registros saltarnos
     const skip = (page - 1) * limit;
