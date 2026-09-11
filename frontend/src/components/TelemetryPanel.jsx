@@ -50,7 +50,7 @@ export const TelemetryPanel = ({ missions, pagination }) => {
             Estado
           </span>
           <span className="text-gray-900 dark:text-gray-100 text-base md:text-lg mt-1 mb-2">
-            Actualmente Activas
+            En Progreso
           </span>
           <span className="text-5xl md:text-6xl font-display font-extrabold tracking-tight text-gray-900 dark:text-white mt-auto transition-colors duration-300">
             {misionesActivas}
