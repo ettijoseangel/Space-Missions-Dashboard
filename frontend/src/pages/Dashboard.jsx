@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import MissionModal from "../components/MissionModal";
 import { Footer } from "../components/Footer";
 import { MissionChart } from "../components/MissionChart";
+import { Filter, ChevronDown } from "lucide-react";
 
 export const Dashboard = () => {
   // Usuario extraido y creacion del estado del modal
@@ -14,9 +15,28 @@ export const Dashboard = () => {
   const isAdmin = user?.role === "admin";
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const opcionesFiltro = [
+    "Todas",
+    "Activa",
+    "En Progreso",
+    "Completada",
+    "Fallida",
+    "Cancelada",
+  ];
+
   // Desestructuracion del return del Hook
-  const { missions, loading, error, pagination, setMissions, page, setPage } =
-    useMissions();
+  const {
+    missions,
+    loading,
+    error,
+    pagination,
+    setMissions,
+    page,
+    setPage,
+    statusFilter,
+    setStatusFilter,
+  } = useMissions();
 
   const [missionToEdit, setMissionToEdit] = useState(null);
 
@@ -146,17 +166,81 @@ export const Dashboard = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {missions.map((mission) => (
-                <MissionCard
-                  key={mission._id}
-                  mission={mission}
-                  onDelete={handleDeleteMission}
-                  onEdit={handleEditMission}
-                  isAdmin={isAdmin}
-                />
-              ))}
+            {/* Seccion de MISIONES */}
+            <div className="mt-16 mb-6">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-gray-900 dark:text-white uppercase tracking-tight flex items-center gap-3">
+                <span className="w-2 h-6 bg-jpl-red rounded-sm"></span>
+                Registro de Operaciones
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 ml-5 font-mono uppercase tracking-widest">
+                Base de datos de la flota espacial
+              </p>
             </div>
+
+            {/* CONTROLES DE FILTRADO PERSONALIZADO */}
+            <div className="mb-6 flex justify-end">
+              <div className="relative">
+                <button
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  className="flex items-center gap-3 bg-white dark:bg-space-panel border border-gray-200 dark:border-gray-800 px-4 py-2 rounded-lg shadow-sm hover:border-gray-300 dark:hover:border-gray-700 transition-all focus:outline-none focus:ring-1 focus:ring-jpl-red"
+                >
+                  <Filter size={16} className="text-gray-400" />
+                  <span className="font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider text-xs">
+                    Estado:
+                  </span>
+                  <span className="font-mono text-sm font-bold text-jpl-red min-w-[100px] text-left">
+                    {statusFilter}
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`text-gray-400 transition-transform duration-300 ${isFilterOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {isFilterOpen && (
+                  <div className="absolute right-0 mt-2 w-full min-w-[200px] bg-white dark:bg-space-panel border border-gray-200 dark:border-gray-800 rounded-lg shadow-xl z-50 overflow-hidden py-1">
+                    {opcionesFiltro.map((opcion) => (
+                      <button
+                        key={opcion}
+                        onClick={() => {
+                          setStatusFilter(opcion);
+                          setPage(1); // Reseteamos la paginación
+                          setIsFilterOpen(false); // Cerramos el menú
+                        }}
+                        className={`w-full text-left px-4 py-2.5 font-mono text-sm transition-colors ${
+                          statusFilter === opcion
+                            ? "text-jpl-red font-bold bg-gray-50 dark:bg-gray-800/80"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                        }`}
+                      >
+                        {opcion}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="flex justify-center items-center min-h-[600px]">
+                <p className="text-gray-600 dark:text-gray-400 font-mono animate-pulse flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-jpl-red border-t-transparent rounded-full animate-spin"></span>
+                  Rastreando señales en el espacio profundo...
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {missions.map((mission) => (
+                  <MissionCard
+                    key={mission._id}
+                    mission={mission}
+                    onDelete={handleDeleteMission}
+                    onEdit={handleEditMission}
+                    isAdmin={isAdmin}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* CONTROLES DE PAGINACION */}
             {pagination && pagination.pages > 1 && (
@@ -170,7 +254,8 @@ export const Dashboard = () => {
                 </button>
 
                 <span className="font-mono text-sm text-gray-500 dark:text-gray-400">
-                  Página <span className="text-jpl-red font-bold">{page}</span> de {pagination.pages}
+                  Página <span className="text-jpl-red font-bold">{page}</span>{" "}
+                  de {pagination.pages}
                 </span>
 
                 <button
