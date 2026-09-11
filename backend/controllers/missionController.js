@@ -8,16 +8,22 @@ export const getMissions = async (req, res) => {
     // Obtenemos la pagina y el limite desde la URL (o usamos valores por defecto)
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 9;
+    const status = req.query.status;
+
+    const query = {}; // Filtro vacio
+
+    if (status && status !== "Todas") {
+      query.estado = status;
+    }
 
     // Calculamos cuantos registros saltarnos
     const skip = (page - 1) * limit;
 
     // Contamos el total de documentos para saber cuantas paginas hay en total
-    const total = await Mission.countDocuments();
+    const total = await Mission.countDocuments(query);
 
     // Buscamos las misiones aplicando el salto y el limite
-
-    const missions = await Mission.find({}).skip(skip).limit(limit);
+    const missions = await Mission.find(query).skip(skip).limit(limit);
 
     // Devolvemos los datos junto con la metadata de la paginacion
     res.json({
