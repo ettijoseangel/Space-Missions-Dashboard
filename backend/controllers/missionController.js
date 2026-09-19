@@ -111,7 +111,7 @@ export const updateMission = async (req, res) => {
       });
     }
 
-    res.status(200).jsonm(updatedMission);
+    res.status(200).json(updatedMission);
   } catch (error) {
     res.status(500).json({
       message: "Error al actualizar la telemetría.",
