@@ -1,0 +1,9 @@
+# AEZ - Centro de Datos Espaciales
+
+Plataforma interactiva para la visualización, monitoreo y gestión de misiones espaciales a través de paneles de telemetría y registros operativos.
+
+## Tecnologías Principales
+El sistema está construido utilizando una arquitectura MERN (React, Express, Node.js, MongoDB) con diseño en Tailwind CSS.
+
+## Enlaces del Proyecto
+- [Panel Principal](https://space-missions-aez.vercel.app/dashboard)
