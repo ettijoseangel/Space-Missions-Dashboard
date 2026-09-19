@@ -96,6 +96,7 @@ export const Dashboard = () => {
               /* Imagen de Marte de alta calidad como placeholder */
               src="https://i.extremetech.com/imagery/content-types/04dWkFu8PCcaW7y6Rc8HvNj/hero-image.fit_lim.v1678673196.jpg"
               alt="Superficie Planetaria"
+              fetchPriority="high"
               className="w-full h-full object-cover object-right opacity-50 dark:opacity-40 mix-blend-luminosity"
             />
             {/* El gradiente mágico: Sólido a la izquierda, transparente a la derecha */}
