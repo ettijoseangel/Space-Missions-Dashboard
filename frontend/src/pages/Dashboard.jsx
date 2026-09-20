@@ -50,10 +50,6 @@ export const Dashboard = () => {
   };
 
   const handleDeleteMission = async (id) => {
-    const confirmDelete = window.confirm(
-      "ALERTA DE SISTEMA: ¿Estás seguro de que deseas purgar esta misión? Esta acción es irreversible.",
-    );
-    if (!confirmDelete) return;
 
     try {
       const token = localStorage.getItem("token");

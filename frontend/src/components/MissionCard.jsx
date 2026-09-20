@@ -7,8 +7,28 @@ import {
   Trash2,
   Edit2,
 } from "lucide-react";
+import { useState } from "react";
+import { ConfirmModal } from "./ConfirmModal";
+import { toast } from 'sonner';
 
 export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
+  // Estadp para controlar si el modal esta visible
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Funcion para confirmar la ejecucion en el modal
+  const handleConfirmDelete = async () => {
+    try {
+      setIsModalOpen(false);
+      await onDelete(mission._id);
+
+      toast.success(`La misión ${mission.nombre} ha sido purgada del sistema`, {
+        style: { background: '#101114', color: '#fff', border: '1px solid #374151' }
+      });
+    } catch (error) {
+      toast.error("Error al eliminar la misión de los servidores");
+    }
+  };
+
   // Funcion para determinar el color del indicador
   const getStatusConfig = (estado) => {
     const est = estado?.toLowerCase() || "";
@@ -185,7 +205,7 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
 
           {/* Botón de ELIMINAR */}
           <button
-            onClick={() => onDelete(mission._id)}
+            onClick={() => setIsModalOpen(true)}
             className="p-2 text-gray-400 hover:text-jpl-red dark:text-red-400 hover:bg-red-900/20 rounded-md transition-all duration-300 group"
             title="Purgar misión"
           >
@@ -196,6 +216,14 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
           </button>
         </div>
       )}
+
+      {/* Modal de Eliminar Mision */}
+      <ConfirmModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        missionName={mission.nombre} // o mission.name, según tu base de datos
+      />
     </div>
   );
 };
