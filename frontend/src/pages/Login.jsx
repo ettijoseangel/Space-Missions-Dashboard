@@ -66,7 +66,7 @@ return (
       <div className="relative z-10 w-full max-w-md bg-gray-900/80 backdrop-blur-md border-t-4 border-jpl-red rounded-lg shadow-2xl p-8 border-x border-b">
         
         <div className="text-center mb-8">
-          <p className="text-jpl-red font-mono text-sm tracking-[0.3em] uppercase mb-2">Protocolo de Seguridad</p>
+          <p className="text-jpl-red dark:text-red-400 font-mono text-sm tracking-[0.3em] uppercase mb-2">Protocolo de Seguridad</p>
           <h1 className="text-3xl font-display font-bold text-white tracking-tight">Acceso Restringido</h1>
         </div>
 

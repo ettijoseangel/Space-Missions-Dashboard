@@ -63,7 +63,7 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
       {/* 1. Encabezado: Título, Agencia y Estado */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-white group-hover:text-jpl-red transition-colors duration-300">
+          <h3 className="font-display text-2xl font-bold text-gray-900 dark:text-white group-hover:text-jpl-red dark:group-hover:text-red-400  transition-colors duration-300">
             {mission.nombre}
           </h3>
           <p className="text-gray-500 dark:text-gray-400 text-sm font-medium mt-1 uppercase tracking-wide">
@@ -89,7 +89,7 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
       {/* 2. Cuadrícula de Datos Técnicos con Íconos */}
       <div className="grid grid-cols-2 gap-y-4 gap-x-2 mb-6">
         <div>
-          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red uppercase tracking-widest mb-1">
+          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red dark:text-red-400 uppercase tracking-widest mb-1">
             {/* Ícono de Destino (Planeta) */}
             <svg
               className="w-3.5 h-3.5"
@@ -112,7 +112,7 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
         </div>
 
         <div>
-          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red uppercase tracking-widest mb-1">
+          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red dark:text-red-400 uppercase tracking-widest mb-1">
             {/* Ícono de Lanzamiento (Calendario) */}
             <svg
               className="w-3.5 h-3.5"
@@ -135,7 +135,7 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
         </div>
 
         <div>
-          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red uppercase tracking-widest mb-1">
+          <span className="flex items-center gap-1.5 text-xs font-bold text-jpl-red dark:text-red-400 uppercase tracking-widest mb-1">
             {/* Ícono de Tripulación (Usuarios) */}
             <svg
               className="w-3.5 h-3.5"
@@ -186,7 +186,7 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
           {/* Botón de ELIMINAR */}
           <button
             onClick={() => onDelete(mission._id)}
-            className="p-2 text-gray-400 hover:text-jpl-red hover:bg-red-900/20 rounded-md transition-all duration-300 group"
+            className="p-2 text-gray-400 hover:text-jpl-red dark:text-red-400 hover:bg-red-900/20 rounded-md transition-all duration-300 group"
             title="Purgar misión"
           >
             <Trash2

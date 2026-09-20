@@ -1,21 +1,29 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Centro de Control de Datos Espaciales (AEZ). Plataforma interactiva para la gestión, telemetría y monitoreo de la flota de misiones espaciales." />
-    <link rel="icon" type="image/svg+xml" href="/rocket.svg" />
-    <link rel="preload" as="image" href="https://i.extremetech.com/imagery/content-types/04dWkFu8PCcaW7y6Rc8HvNj/hero-image.fit_lim.v1678673196.jpg"
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AEZ | Centro de Datos Espaciales</title>
 
-    <script>
-      if (localStorage.getItem('theme') === 'dark' || !localStorage.getItem('theme')) {
-        document.documentElement.classList.add('dark');
-      }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description"
+    content="Centro de Control de Datos Espaciales (AEZ). Plataforma interactiva para la gestión, telemetría y monitoreo de la flota de misiones espaciales." />
+  <link rel="icon" type="image/svg+xml" href="/rocket.svg" />
+  <link rel="preload" as="image"
+    href="https://i.extremetech.com/imagery/content-types/04dWkFu8PCcaW7y6Rc8HvNj/hero-image.fit_lim.v1678673196.jpg"
+    fetchpriority="high" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AEZ | Centro de Datos Espaciales</title>
+
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || !localStorage.getItem('theme')) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

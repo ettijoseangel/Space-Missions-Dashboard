@@ -8,7 +8,7 @@ export const NotFound = () => {
 
       <div className="z-10 flex flex-col items-center space-y-6">
         {/* El número de error grande y parpadeante */}
-        <h1 className="text-8xl md:text-[150px] font-black text-jpl-red tracking-tighter opacity-80 animate-pulse drop-shadow-[0_0_25px_rgba(227,25,55,0.6)]">
+        <h1 className="text-8xl md:text-[150px] font-black text-jpl-red dark:text-red-400 tracking-tighter opacity-80 animate-pulse drop-shadow-[0_0_25px_rgba(227,25,55,0.6)]">
           404
         </h1>
 
@@ -24,7 +24,7 @@ export const NotFound = () => {
 
         <Link
           to="/dashboard"
-          className="mt-12 bg-transparent hover:bg-jpl-red/10 text-jpl-red font-mono text-sm uppercase tracking-widest px-8 py-4 border border-jpl-red/50 hover:border-jpl-red rounded transition-all shadow-[0_0_15px_rgba(227,25,55,0.2)] hover:shadow-[0_0_25px_rgba(227,25,55,0.5)] flex items-center gap-3 group"
+          className="mt-12 bg-transparent hover:bg-jpl-red/10 text-jpl-red dark:text-red-400 font-mono text-sm uppercase tracking-widest px-8 py-4 border border-jpl-red/50 hover:border-jpl-red rounded transition-all shadow-[0_0_15px_rgba(227,25,55,0.2)] hover:shadow-[0_0_25px_rgba(227,25,55,0.5)] flex items-center gap-3 group"
         >
           <span className="text-xl transition-transform group-hover:-translate-x-2">
             ←

@@ -33,7 +33,7 @@ export const TelemetryPanel = ({ missions, pagination }) => {
       <div className="grid grid-cols-2 gap-y-12 gap-x-8">
         {/* Metrica 1: Total de misiones */}
         <div className="flex flex-col">
-          <span className="text-jpl-red text-sm md:text-base font-medium uppercase tracking-wide">
+          <span className="text-jpl-red dark:text-red-400 text-sm md:text-base font-medium uppercase tracking-wide">
             Misiones
           </span>
           <span className="text-gray-900 dark:text-gray-100 text-base md:text-lg mt-1 mb-2">
@@ -46,7 +46,7 @@ export const TelemetryPanel = ({ missions, pagination }) => {
 
         {/* Metrica 2: Misiones Activas */}
         <div className="flex flex-col">
-          <span className="text-jpl-red text-sm md:text-base font-medium uppercase tracking-wide">
+          <span className="text-jpl-red dark:text-red-400 text-sm md:text-base font-medium uppercase tracking-wide">
             Estado
           </span>
           <span className="text-gray-900 dark:text-gray-100 text-base md:text-lg mt-1 mb-2">
@@ -59,7 +59,7 @@ export const TelemetryPanel = ({ missions, pagination }) => {
 
         {/* Metrica 3: Tripulacion */}
         <div className="flex flex-col">
-          <span className="text-jpl-red text-sm md:text-base font-medium uppercase tracking-wide">
+          <span className="text-jpl-red dark:text-red-400 text-sm md:text-base font-medium uppercase tracking-wide">
             Humanos
           </span>
           <span className="text-gray-900 dark:text-gray-100 text-base md:text-lg mt-1 mb-2">
@@ -72,16 +72,16 @@ export const TelemetryPanel = ({ missions, pagination }) => {
 
         {/* Metrica 4: Proxima mision */}
         <div className="flex flex-col">
-          <span className="text-jpl-red text-sm md:text-base font-medium uppercase tracking-wide">
+          <span className="text-jpl-red dark:text-red-400 text-sm md:text-base font-medium uppercase tracking-wide">
             Cronograma Espacial
           </span>
           <span className="text-gray-900 dark:text-gray-100 text-base md:text-lg mt-1 mb-2">
             Próxima Misión
           </span>
           <div className="flex items-center gap-3 mt-auto">
-            <CalendarClock size={25} className="text-jpl-red" strokeWidth={3} />
+            <CalendarClock size={25} className="text-jpl-red dark:text-red-400" strokeWidth={3} />
             <span
-              className="text-xl md:text-2xl font-display font-extrabold tracking-tight text-jpl-red mt-auto transition-colors duration-300 truncate max-w-[150px] md:max-w-[200px] leading-none"
+              className="text-xl md:text-2xl font-display font-extrabold tracking-tight text-jpl-red dark:text-red-400 mt-auto transition-colors duration-300 truncate max-w-[150px] md:max-w-[200px] leading-none"
               title={nombreMision}
             >
               {nombreMision}

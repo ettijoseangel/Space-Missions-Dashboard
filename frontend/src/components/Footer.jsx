@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
         
         <div className="flex items-center gap-3">
-          <span className="text-jpl-red font-display font-black text-[10px] md:text-xs tracking-widest uppercase">
+          <span className="text-jpl-red dark:text-red-400 font-display font-black text-[10px] md:text-xs tracking-widest uppercase">
             Desarrollado por: JOSE ANGEL ZAVALETA RUIZ
           </span>
         </div>
@@ -17,7 +17,7 @@ export const Footer = () => {
             © {currentYear} Agencia Espacial Zavaletiana
           </p>
           <p className="text-white font-mono text-[10px] tracking-wider mt-1">
-            Proyecto Final: Master en Frontend Asistido con IA
+            Proyecto Final: Máster en Frontend Asistido con IA
           </p>
         </div>
       </div>

@@ -124,7 +124,7 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded, missionToEdit }) => {
         {/* Cabecera del Modal */}
         <div className="bg-gray-950 border-b border-gray-800 px-6 py-4 flex justify-between items-center">
           <div>
-            <p className="text-jpl-red font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-jpl-red dark:text-red-400 font-mono text-[10px] tracking-widest uppercase">
               Formulario de Registro
             </p>
             <h3 className="text-xl font-display text-white font-bold uppercase tracking-tight">

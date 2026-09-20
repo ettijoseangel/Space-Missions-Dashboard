@@ -96,7 +96,7 @@ export const Dashboard = () => {
               /* Imagen de Marte de alta calidad como placeholder */
               src="https://i.extremetech.com/imagery/content-types/04dWkFu8PCcaW7y6Rc8HvNj/hero-image.fit_lim.v1678673196.jpg"
               alt="Superficie Planetaria"
-              fetchPriority="high"
+              fetchpriority="high"
               className="w-full h-full object-cover object-right opacity-50 dark:opacity-40 mix-blend-luminosity"
             />
             {/* El gradiente mágico: Sólido a la izquierda, transparente a la derecha */}
@@ -111,7 +111,7 @@ export const Dashboard = () => {
               <span className="text-gray-400">/</span>
               <span>MODULOS</span>
               <span className="text-gray-400">/</span>
-              <span className="text-jpl-red">DASHBOARD</span>
+              <span className="text-jpl-red dark:text-red-400">DASHBOARD</span>
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-4">
@@ -149,7 +149,7 @@ export const Dashboard = () => {
         )}
 
         {error && (
-          <p className="text-jpl-red font-mono font-bold">
+          <p className="text-jpl-red dark:text-red-400 font-mono font-bold">
             [ERROR DE COMUNICACIÓN]: {error}
           </p>
         )}
@@ -189,7 +189,7 @@ export const Dashboard = () => {
                   <span className="font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider text-xs">
                     Estado:
                   </span>
-                  <span className="font-mono text-sm font-bold text-jpl-red min-w-[100px] text-left">
+                  <span className="font-mono text-sm font-bold text-jpl-red dark:text-red-400 min-w-[100px] text-left">
                     {statusFilter}
                   </span>
                   <ChevronDown
@@ -210,7 +210,7 @@ export const Dashboard = () => {
                         }}
                         className={`w-full text-left px-4 py-2.5 font-mono text-sm transition-colors ${
                           statusFilter === opcion
-                            ? "text-jpl-red font-bold bg-gray-50 dark:bg-gray-800/80"
+                            ? "text-jpl-red dark:text-red-400 font-bold bg-gray-50 dark:bg-gray-800/80"
                             : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                         }`}
                       >
@@ -255,7 +255,7 @@ export const Dashboard = () => {
                 </button>
 
                 <span className="font-mono text-sm text-gray-500 dark:text-gray-400">
-                  Página <span className="text-jpl-red font-bold">{page}</span>{" "}
+                  Página <span className="text-jpl-red dark:text-red-400 font-bold">{page}</span>{" "}
                   de {pagination.pages}
                 </span>
 

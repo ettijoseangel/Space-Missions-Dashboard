@@ -29,7 +29,7 @@ export const Header = () => {
         {/* LADO IZQUIERDO: Branding */}
         <div className="flex items-center gap-3">
           <Rocket className="w-8 h-8" />
-          <span className="text-jpl-red font-display font-black text-2xl tracking-tight uppercase">
+          <span className="text-jpl-red dark:text-red-400 font-display font-black text-2xl tracking-tight uppercase">
             AEZ
           </span>
           {/* Ocultamos el texto largo en móviles para evitar que se rompa el diseño */}
@@ -42,7 +42,7 @@ export const Header = () => {
         <div className="flex items-center gap-6 md:gap-10">
           {/* Reloj Sistema (Oculto en móviles muy pequeños) */}
           <div className="hidden md:flex flex-col items-end">
-            <span className="text-[10px] text-jpl-red font-bold tracking-widest uppercase">
+            <span className="text-[10px] text-jpl-red dark:text-red-400 font-bold tracking-widest uppercase">
               Tiempo del Sistema
             </span>
             <span className="text-sm font-mono text-gray-900 dark:text-gray-100">
@@ -72,7 +72,7 @@ export const Header = () => {
             ) : (
               <button 
                 onClick={() => navigate('/login')}
-                className="text-[11px] font-mono uppercase tracking-widest text-jpl-red hover:text-red-700 dark:hover:text-red-400 transition-colors"
+                className="text-[11px] font-mono uppercase tracking-widest text-jpl-red dark:text-red-400 hover:text-red-400 dark:hover:text-red-700 transition-colors"
               >
                 Acceso Admin
               </button>
