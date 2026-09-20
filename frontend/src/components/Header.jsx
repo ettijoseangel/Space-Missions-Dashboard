@@ -64,7 +64,7 @@ export const Header = () => {
                 {/* Botón salir como texto simple para no saturar visualmente */}
                 <button 
                   onClick={logout}
-                  className="text-[11px] font-mono uppercase tracking-widest text-gray-400 hover:text-jpl-red transition-colors"
+                  className="text-[11px] font-mono uppercase tracking-widest text-gray-400 hover:text-jpl-red dark:hover:text-red-400 transition-colors"
                 >
                   Salir
                 </button>

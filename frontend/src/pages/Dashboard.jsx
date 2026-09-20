@@ -126,7 +126,7 @@ export const Dashboard = () => {
                     setMissionToEdit(null);
                     setIsModalOpen(true);
                   }}
-                  className="bg-jpl-red hover:bg-red-700 text-white font-mono text-xs md:text-sm uppercase tracking-widest px-6 py-3 rounded transition-all shadow-[0_0_15px_rgba(227,0,15,0.4)] hover:shadow-[0_0_25px_rgba(227,0,15,0.6)] border border-red-500/50 flex items-center gap-2"
+                  className="bg-jpl-red dark:bg-red-400 hover:bg-red-700 dark:hover:bg-red-700 text-white font-mono text-xs md:text-sm uppercase tracking-widest px-6 py-3 rounded transition-all shadow-[0_0_15px_rgba(227,0,15,0.4)] hover:shadow-[0_0_25px_rgba(227,0,15,0.6)] border border-red-500/50 flex items-center gap-2"
                 >
                   <span className="text-lg font-light leading-none">+</span>{" "}
                   Autorizar Misión
