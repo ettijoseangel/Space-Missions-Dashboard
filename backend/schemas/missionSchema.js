@@ -44,5 +44,7 @@ export const missionValidationSchema = z.object({
     invalid_type_error: "La tripulación debe ser un valor numérico",
   }).min(0, "La tripulación no puede ser negativa"),
 
-  descripcion: z.string().optional()
+  descripcion: z.string().optional(),
+
+  imagen_url: z.string().url("Debe ser una URL válida").optional().or(z.literal('')),
 });
