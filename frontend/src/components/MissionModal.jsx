@@ -22,7 +22,15 @@ const missionSchema = z.object({
   ]),
   // z.coerce fuerza a que el input (que siempre es texto en HTML) se convierta a número
   tripulacion: z.coerce.number().min(0, "No puede ser negativa"),
-  descripcion: z.string().optional(),
+  descripcion: z
+    .string()
+    .max(1000, "El reporte no puede exceder los 1000 caracteres")
+    .optional(),
+  imagen_url: z
+    .string()
+    .url("Debe ser una URL válida")
+    .optional()
+    .or(z.literal("")),
 });
 
 const MissionModal = ({ isOpen, onClose, onMissionAdded, missionToEdit }) => {
@@ -130,7 +138,7 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded, missionToEdit }) => {
               Formulario de Registro
             </p>
             <h3 className="text-xl font-display text-white font-bold uppercase tracking-tight">
-             {missionToEdit ? 'Actualizar' : 'Crear'} Misión Espacial
+              {missionToEdit ? "Actualizar" : "Crear"} Misión Espacial
             </h3>
           </div>
           <button
@@ -243,6 +251,18 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded, missionToEdit }) => {
                   {errors.tripulacion.message}
                 </p>
               )}
+            </div>
+
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">
+                URL de la Fotografia (Opcional)
+              </label>
+              <input
+                type="url"
+                {...register("imagen_url")}
+                placeholder="https://ejemplo.com/foto-marte.jpg"
+                className="w-full bg-gray-950 border border-gray-700 rounded p-2 text-white font-mono text-sm focus:border-jpl-red outline-none"
+              />
             </div>
 
             <div className="space-y-1 md:col-span-2">

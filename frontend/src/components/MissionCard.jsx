@@ -6,10 +6,12 @@ import {
   Ban,
   Trash2,
   Edit2,
+  Eye,
 } from "lucide-react";
 import { useState } from "react";
 import { ConfirmModal } from "./ConfirmModal";
-import { toast } from 'sonner';
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
   // Estadp para controlar si el modal esta visible
@@ -23,7 +25,11 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
 
       toast.success(`La misión ${mission.nombre} ha sido purgada del sistema`, {
         duration: 4000,
-        style: { background: '#101114', color: '#fff', border: '1px solid #374151' }
+        style: {
+          background: "#101114",
+          color: "#fff",
+          border: "1px solid #374151",
+        },
       });
     } catch (error) {
       toast.error("Error al eliminar la misión de los servidores", error);
@@ -189,37 +195,52 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
         </p>
       </div>
 
-      {/* BARRA DE ACCIONES */}
-      {isAdmin && (
-        <div className="mt-auto pt-4 flex justify-end gap-3 border-t border-gray-100 dark:border-gray-800/50">
-          {/* Botón de EDITAR */}
-          <button
-            onClick={() => onEdit(mission)} // IMPORTANTE: Pasamos TODA la misión, no solo el ID
-            className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-900/20 rounded-md transition-all duration-300 group"
-            title="Modificar misión"
-          >
-            <Edit2
-              size={18}
-              className="group-hover:scale-110 transition-transform"
-            />
-          </button>
+      {/* --- BARRA DE ACCIONES UNIFICADA --- */}
+      <div className="mt-5 pt-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
+        {/* Botón para ver detalles (Visible para todos) */}
+        <Link
+          to={`/mission/${mission._id}`}
+          className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-jpl-red dark:hover:text-red-400 hover:underline hover:underline-offset-4 transition-all group"
+        >
+          <Eye
+            size={16}
+            className="group-hover:text-jpl-red dark:group-hover:text-red-400 transition-colors"
+          />
+          Ver Expediente
+        </Link>
 
-          {/* Botón de ELIMINAR */}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="p-2 text-gray-400 hover:text-jpl-red dark:text-red-400 hover:bg-red-900/20 rounded-md transition-all duration-300 group"
-            title="Purgar misión"
-          >
-            <Trash2
-              size={18}
-              className="group-hover:animate-pulse group-hover:scale-110 transition-transform"
-            />
-          </button>
-        </div>
-      )}
+        {/* Controles de Administrador (Condicional) */}
+        {isAdmin && (
+          <div className="flex justify-end gap-1">
+            {/* Botón de EDITAR */}
+            <button
+              onClick={() => onEdit(mission)}
+              className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-900/20 rounded-md transition-all duration-300 group"
+              title="Modificar misión"
+            >
+              <Edit2
+                size={18}
+                className="group-hover:scale-110 transition-transform"
+              />
+            </button>
+
+            {/* Botón de ELIMINAR */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="p-2 text-gray-400 hover:text-jpl-red dark:hover:text-red-400 hover:bg-red-900/20 rounded-md transition-all duration-300 group"
+              title="Purgar misión"
+            >
+              <Trash2
+                size={18}
+                className="group-hover:animate-pulse group-hover:scale-110 transition-transform"
+              />
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Modal de Eliminar Mision */}
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmDelete}
