@@ -23,7 +23,7 @@ export const getMissions = async (req, res) => {
     const total = await Mission.countDocuments(query);
 
     // Buscamos las misiones aplicando el salto y el limite
-    const missions = await Mission.find(query).skip(skip).limit(limit);
+    const missions = await Mission.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit);
 
     // Devolvemos los datos junto con la metadata de la paginacion
     res.json({
