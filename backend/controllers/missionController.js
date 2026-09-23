@@ -45,17 +45,18 @@ export const getMissions = async (req, res) => {
 // @route   GET /api/missions/:id
 export const getMissionByID = async (req, res) => {
   try {
-    const mission = await Mission.findById(req.params.id);
+    const { id } = req.params;
+    const mission = await Mission.findById(id);
 
-    if (mission) {
-      res.json(mission);
-    } else {
-      res.status(404).json({ message: "Misión no encontrada" });
+    if (!mission) {
+      res.status(404).json({ message: "Misión no encontrada en los registros." });
     }
+    res.json(mission);
+    
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error al buscar la misión", error: error.message });
+      .json({ message: "Error al acceder a los archivos de la misión", error: error.message });
   }
 };
 

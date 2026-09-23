@@ -29,7 +29,13 @@ const missionSchema = new mongoose.Schema({
     },
     descripcion: {
         type: String,
-        required: false // No es obligatorio por el momento
+        required: false, // No es obligatorio por el momento
+        trim: true,
+        default: "Información clasificada o no disponible en los archivos actuales de la agencia."
+    },
+    imagen_url: {
+        type: String,
+        trim: true,
     }
 }, {
     timestamps: true    // Crea automaticamente los campos createdAt y updatedAt
