@@ -105,12 +105,14 @@ const MissionModal = ({ isOpen, onClose, onMissionAdded, missionToEdit }) => {
         ? `¡Misión "${data.nombre}" actualizada!`
         : `¡Misión "${data.nombre}" registrada con éxito!`;
 
-      toast.success(successMsg, { id: toastId });
+      toast.success(successMsg, { id: toastId, duration: 4000 });
 
       // Se limpia el formulario y modal cerrado
       reset();
       onMissionAdded(result); // se le avisa al Dashboard que hay una nueva mision
-      onClose();
+      setTimeout(() => {
+        onClose();
+      }, 2000); // Cierra el modal después de 2 segundos
     } catch (error) {
       toast.error(`Error: ${error.message}`, { id: toastId });
     } finally {

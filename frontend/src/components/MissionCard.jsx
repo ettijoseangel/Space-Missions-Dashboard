@@ -22,10 +22,11 @@ export const MissionCard = ({ mission, onDelete, onEdit, isAdmin }) => {
       await onDelete(mission._id);
 
       toast.success(`La misión ${mission.nombre} ha sido purgada del sistema`, {
+        duration: 4000,
         style: { background: '#101114', color: '#fff', border: '1px solid #374151' }
       });
     } catch (error) {
-      toast.error("Error al eliminar la misión de los servidores");
+      toast.error("Error al eliminar la misión de los servidores", error);
     }
   };
 
